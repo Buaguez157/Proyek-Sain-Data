@@ -1,11 +1,17 @@
-# Welcome to your Jupyter Book
+# About Me
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Halo 👋, perkenalkan saya:
 
-Check out the content pages bundled with this sample book to see more.
+- **Nama**  : Bagus Abdullah Eka Saputra 
+- **NIM**   : 210411100188
+- **Kelas** : Proyek Sains Data (A)
 
-```{tableofcontents}
-```
+## Tentang Saya
+Saya adalah mahasiswa Teknik Informatika yang sedang menempuh mata kuliah **Proyek Sains Data**.  
+Melalui mata kuliah ini, saya berfokus pada penerapan konsep-konsep sains data dalam menyelesaikan studi kasus nyata dengan mengikuti tahapan metodologi CRISP-DM.  
+
+## Tujuan Proyek
+- Mengaplikasikan metode CRISP-DM dalam analisis data.  
+- Melakukan eksplorasi, pembersihan, pemodelan, dan evaluasi data secara sistematis.  
+- Menyajikan hasil analisis dalam bentuk dokumentasi dan visualisasi interaktif.  
+- Mengasah keterampilan praktis dalam sains data untuk mendukung pemecahan masalah berbasis data.  
