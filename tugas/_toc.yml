@@ -5,5 +5,5 @@ format: jb-book
 root: intro
 chapters:
 - file: Memahami-Bisnis
-- file: Data-Understanding
+- file: PraProses
 - file: Eksplorasi-Data
