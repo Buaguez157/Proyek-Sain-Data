@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Eksplorasi Data &#8212; About Me</title>
+    <title>Deteksi Outlier dengan ABOD (Angle-Based Outlier Detection) pada dataset iris &#8212; About Me</title>
   
   
   
@@ -57,7 +57,7 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Eksplorasi-Data';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'abod';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Pra Proses Data" href="PraProses.html" />
@@ -182,7 +182,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Memahami-Bisnis.html"><strong>Business Problem Understanding</strong></a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="PraProses.html"><strong>Pra Proses Data</strong></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Eksplorasi Data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deteksi Outlier dengan ABOD (Angle-Based Outlier Detection) pada dataset iris</a></li>
+
 </ul>
 
     </div>
@@ -254,7 +255,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FEksplorasi-Data.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fabod.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -284,7 +285,7 @@
       
       
       
-      <li><a href="_sources/Eksplorasi-Data.md" target="_blank"
+      <li><a href="_sources/abod.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -294,7 +295,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -368,7 +369,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Eksplorasi Data</h1>
+    <h1>Deteksi Outlier dengan ABOD (Angle-Based Outlier Detection) pada dataset iris</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -378,11 +379,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset">Informasi Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif">Statistik Deskriptif</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal">Visualisasi Awal</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catatan-awal">Catatan Awal</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Deteksi Outlier dengan ABOD (Angle-Based Outlier Detection) pada dataset iris</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-menggunakan-power-bi">Visualisasi menggunakan Power BI</a></li>
 </ul>
+
             </nav>
         </div>
     </div>
@@ -393,48 +393,180 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="eksplorasi-data">
-<h1>Eksplorasi Data<a class="headerlink" href="#eksplorasi-data" title="Link to this heading">#</a></h1>
-<p>Tahap ini dilakukan untuk memahami dataset yang digunakan dalam <strong>Proyek Sains Data</strong> sebelum dilakukan preprocessing atau pemodelan.</p>
-<section id="informasi-dataset">
-<h2>Informasi Dataset<a class="headerlink" href="#informasi-dataset" title="Link to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="deteksi-outlier-dengan-abod-angle-based-outlier-detection-pada-dataset-iris">
+<h1>Deteksi Outlier dengan ABOD (Angle-Based Outlier Detection) pada dataset iris<a class="headerlink" href="#deteksi-outlier-dengan-abod-angle-based-outlier-detection-pada-dataset-iris" title="Link to this heading">#</a></h1>
+<p><strong>Langkah-langkah</strong></p>
+<ol class="arabic simple">
+<li><p>Import library &amp; load dataset Iris</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># ganti path sesuai lokasi file CSV hasil cluster outlier iris</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;iris_outlier_cluster.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id        Class  sepal length  sepal width  petal length  petal width  \
+0   1  Iris-setosa           5.1          3.5           1.4          0.2   
+1   2  Iris-setosa           4.9          3.0           1.4          0.2   
+2   3  Iris-setosa           4.7          3.2           1.3          0.2   
+3   4  Iris-setosa           4.6          3.1           1.5          0.2   
+4   5  Iris-setosa           5.0          3.6           1.4          0.2   
+
+   Anomaly    Cluster  
+0        0  Cluster 1  
+1        0  Cluster 1  
+2        0  Cluster 1  
+3        0  Cluster 1  
+4        0  Cluster 1  
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dataset berisi 151 baris, 8 fitur id,Class,sepal length,sepal width,petal length,petal width,Anomaly,Cluster</p>
+<ol class="arabic simple" start="2">
+<li><p>Pisahkan fitur numerik</p></li>
+</ol>
+<p>Kalau ada kolom cluster/label, jangan dipakai untuk deteksi outlier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;float64&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;id&#39;, &#39;sepal length&#39;, &#39;sepal width&#39;, &#39;petal length&#39;, &#39;petal width&#39;,
+       &#39;Anomaly&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Jalankan ABOD</p></li>
+</ol>
+<p>Pastikan sudah install pyod:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyod</span>
+
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyod.models.abod</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABOD</span>
+
+<span class="c1"># Inisialisasi ABOD (anggap 5% data outlier)</span>
+<span class="n">abod</span> <span class="o">=</span> <span class="n">ABOD</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">abod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan hasil prediksi ke dataframe</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;outlier_abod&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">abod</span><span class="o">.</span><span class="n">labels_</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;outlier_abod&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>outlier_abod
+0    142
+1      8
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>0 = inlier, 1 = outlier.</p>
+<ol class="arabic simple" start="4">
+<li><p>Hapus outlier dari dataset</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clean</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;outlier_abod&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;outlier_abod&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_clean</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(142, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dataset bersih akan lebih kecil dari 151 baris karena outlier dihapus</p>
+<ol class="arabic simple" start="5">
+<li><p>Simpan dataset bersih ke CSV</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clean</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;iris_cluster_abod_clean.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset bersih disimpan sebagai iris_cluster_abod_clean.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset bersih disimpan sebagai iris_cluster_abod_clean.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="visualisasi-menggunakan-power-bi">
+<h1>Visualisasi menggunakan Power BI<a class="headerlink" href="#visualisasi-menggunakan-power-bi" title="Link to this heading">#</a></h1>
+<p>setelah dataset hasil hapus outlier dengan ABOD sudah siap, kita bisa lanjut ke visualisasi di Power BI</p>
+<p>Berikut alurnya step-by-step:</p>
+<ol class="arabic">
+<li><p>Import Dataset ke Power BI</p>
+<ol class="arabic simple">
+<li><p>Buka Power BI Desktop.</p></li>
+<li><p>Klik Home → Get Data → Text/CSV.</p></li>
+<li><p>Pilih file iris_cluster_abod_clean.csv.</p></li>
+<li><p>Klik Load.
+<img alt="abod.png" src="_images/abod.png" />
+Dataset bersih sekarang sudah ada di Power BI.</p></li>
+</ol>
+</li>
+<li><p>Persiapan Data</p>
 <ul class="simple">
-<li><p><strong>Sumber data</strong>: (tuliskan sumber dataset, misalnya UCI Machine Learning Repository).</p></li>
-<li><p><strong>Jumlah fitur</strong>: X fitur.</p></li>
-<li><p><strong>Jumlah sampel</strong>: X baris.</p></li>
-<li><p><strong>Deskripsi variabel</strong>:</p>
-<ul>
-<li><p>Fitur 1: …</p></li>
-<li><p>Fitur 2: …</p></li>
-<li><p>Target: …</p></li>
+<li><p>Pastikan kolom-kolom numerik (sepal length, sepal width, petal length, petal width, Anomaly, id) dikenali sebagai Whole Number dikarenakan datanya hanya angka bulat.</p></li>
+<li><p>Kolom Class &amp; Cluster ubah ke Text.</p></li>
 </ul>
 </li>
-</ul>
-</section>
-<section id="statistik-deskriptif">
-<h2>Statistik Deskriptif<a class="headerlink" href="#statistik-deskriptif" title="Link to this heading">#</a></h2>
+<li><p>Visualisasi yang Bisa Dibuat</p>
+<p><strong>A. Scatter Plot (untuk melihat sebaran setelah hapus outlier)</strong></p>
+<ol class="arabic simple">
+<li><p>Insert → Scatter chart.</p></li>
+<li><p>X-axis: sepal length (cm)</p></li>
+<li><p>Y-axis: sepal width (cm)</p></li>
+<li><p>Legend: Class atau Cluster</p></li>
+<li><p>Size: bisa isi dengan petal length (cm)</p></li>
+<li><p>Values: id
+Ini memperlihatkan distribusi tiap cluster tanpa outlier.</p></li>
+</ol>
+<p><strong>B. Cluster Distribution</strong>
+Gunakan Pie Chart</p>
 <ul class="simple">
-<li><p>Nilai minimum, maksimum, mean, median, standar deviasi.</p></li>
-<li><p>Distribusi kelas (jika ada label).</p></li>
-<li><p>Korelasi antar variabel.</p></li>
+<li><p>Legend: cluster</p></li>
+<li><p>Values: Count of rows
+Dikarenakan belum ada Count of rows, maka gunakan field apa saja (misal sepal length) lalu ubah ke Count di panel Value → klik dropdown → pilih Count.</p></li>
 </ul>
-</section>
-<section id="visualisasi-awal">
-<h2>Visualisasi Awal<a class="headerlink" href="#visualisasi-awal" title="Link to this heading">#</a></h2>
+<p><strong>C. Tampilkan dalam Table View</strong></p>
+<ol class="arabic simple">
+<li><p>Dari Visualizations pane, pilih ikon Table (bentuknya kotak dengan baris-baris).</p></li>
+<li><p>Drag &amp; drop kolom yang ingin ditampilkan dari Fields pane.
+Hasilnya berupa tabel interaktif yang bisa diurutkan</p></li>
+</ol>
+<p><strong>D. Dashboard Lengkap</strong></p>
 <ul class="simple">
-<li><p>Histogram/boxplot untuk distribusi fitur.</p></li>
-<li><p>Scatterplot untuk melihat hubungan antar fitur.</p></li>
-<li><p>Heatmap korelasi antar variabel.</p></li>
+<li><p>Kiri atas → Scatter plot (Cluster vs fitur)</p></li>
+<li><p>Kanan atas → Pie chart (proporsi cluster)</p></li>
+<li><p>Bawah → Tabel outlier (detail data hasil setelah outlier dihapus dengan ABOD)
+<img alt="visual.png" src="_images/visual.png" /></p></li>
 </ul>
-</section>
-<section id="catatan-awal">
-<h2>Catatan Awal<a class="headerlink" href="#catatan-awal" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Apakah ada missing value?</p></li>
-<li><p>Apakah ada outlier?</p></li>
-<li><p>Apakah data sudah seimbang atau terdapat imbalance?</p></li>
-</ul>
-</section>
+</li>
+</ol>
 </section>
 
     <script type="text/x-thebe-config">
@@ -446,16 +578,16 @@ document.write(`
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "pycaret-clean"
         },
         kernelOptions: {
-            name: "python3",
+            name: "pycaret-clean",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'pycaret-clean'</script>
 
                 </article>
               
@@ -492,11 +624,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset">Informasi Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif">Statistik Deskriptif</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal">Visualisasi Awal</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catatan-awal">Catatan Awal</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Deteksi Outlier dengan ABOD (Angle-Based Outlier Detection) pada dataset iris</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-menggunakan-power-bi">Visualisasi menggunakan Power BI</a></li>
 </ul>
+
   </nav></div>
 
 </div></div>
