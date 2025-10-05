@@ -391,6 +391,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-proyeksi"><strong>Reduksi Dimensi &amp; Proyeksi</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-random-forest-evaluasi"><strong>Klasifikasi (Random Forest + evaluasi)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bandingkan-dengan-random-forest-naive-bayes-dan-k-nearest-neighbors-knn-menggunakan-metrik-evaluasi-yang-sama"><strong>Bandingkan dengan Random Forest, Naive Bayes, dan K-Nearest Neighbors (KNN) menggunakan metrik evaluasi yang sama.</strong></a></li>
 </ul>
             </nav>
         </div>
@@ -417,7 +418,8 @@ yang memungkinkan mengambil dataset dari UCI Machine Learning Repository langsun
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: ucimlrepo in /usr/local/lib/python3.12/dist-packages (0.0.7)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting ucimlrepo
+  Downloading ucimlrepo-0.0.7-py3-none-any.whl.metadata (5.5 kB)
 Requirement already satisfied: pandas&gt;=1.0.0 in /usr/local/lib/python3.12/dist-packages (from ucimlrepo) (2.2.2)
 Requirement already satisfied: certifi&gt;=2020.12.5 in /usr/local/lib/python3.12/dist-packages (from ucimlrepo) (2025.8.3)
 Requirement already satisfied: numpy&gt;=1.26.0 in /usr/local/lib/python3.12/dist-packages (from pandas&gt;=1.0.0-&gt;ucimlrepo) (2.0.2)
@@ -425,6 +427,9 @@ Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/pytho
 Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.12/dist-packages (from pandas&gt;=1.0.0-&gt;ucimlrepo) (2025.2)
 Requirement already satisfied: tzdata&gt;=2022.7 in /usr/local/lib/python3.12/dist-packages (from pandas&gt;=1.0.0-&gt;ucimlrepo) (2025.2)
 Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.12/dist-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=1.0.0-&gt;ucimlrepo) (1.17.0)
+Downloading ucimlrepo-0.0.7-py3-none-any.whl (8.0 kB)
+Installing collected packages: ucimlrepo
+Successfully installed ucimlrepo-0.0.7
 </pre></div>
 </div>
 </div>
@@ -753,8 +758,8 @@ weighted avg       0.89      0.90      0.89      9043
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature importance (opsional untuk fitur numerik)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
-<span class="n">feat_imp</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">num_feats</span><span class="p">)]</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feat_imp</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">num_feats</span><span class="p">)</span>
+<span class="n">feat_imp</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">numeric_feats</span><span class="p">)]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feat_imp</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">numeric_feats</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Feature Importance (Numerik)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -764,6 +769,226 @@ weighted avg       0.89      0.90      0.89      9043
 <img alt="_images/cf5d7185db2dfa8dda72ac514bfd22065397387aaf14bf17ddabe4659d8736fa.png" src="_images/cf5d7185db2dfa8dda72ac514bfd22065397387aaf14bf17ddabe4659d8736fa.png" />
 </div>
 </div>
+</section>
+<section id="bandingkan-dengan-random-forest-naive-bayes-dan-k-nearest-neighbors-knn-menggunakan-metrik-evaluasi-yang-sama">
+<h2><strong>Bandingkan dengan Random Forest, Naive Bayes, dan K-Nearest Neighbors (KNN) menggunakan metrik evaluasi yang sama.</strong><a class="headerlink" href="#bandingkan-dengan-random-forest-naive-bayes-dan-k-nearest-neighbors-knn-menggunakan-metrik-evaluasi-yang-sama" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================================================</span>
+<span class="c1">#  📊 BANK MARKETING - MODEL COMPARISON (with Best Model Selection)</span>
+<span class="c1"># ================================================================</span>
+<span class="c1"># Models: Random Forest, Naive Bayes, KNN</span>
+<span class="c1"># ================================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.compose</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># 1. LOAD &amp; PREPROCESS</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset shape:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Pisahkan fitur dan target</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>  <span class="c1"># yes=1, no=0</span>
+
+<span class="c1"># Pra-proses: scale numerik + one-hot kategorikal</span>
+<span class="n">num_feats</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span><span class="s1">&#39;float64&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">cat_feats</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="n">ct</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">num_feats</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">),</span> <span class="n">cat_feats</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">X_transformed</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Split data</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_transformed</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+<span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># 2. DEFINISI MODEL</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span>
+    <span class="s2">&quot;Naive Bayes&quot;</span><span class="p">:</span> <span class="n">GaussianNB</span><span class="p">(),</span>
+    <span class="s2">&quot;KNN (k=5)&quot;</span><span class="p">:</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># 3. LATIH, UJI, DAN NILAI</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">===== </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> =====&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Handle Naive Bayes yang butuh dense matrix</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Naive Bayes&quot;</span><span class="p">:</span>
+        <span class="n">X_train_fit</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="s2">&quot;toarray&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">X_train</span>
+        <span class="n">X_test_fit</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="s2">&quot;toarray&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">X_test</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train_fit</span><span class="p">,</span> <span class="n">X_test_fit</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span>
+
+    <span class="c1"># Training</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_fit</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_fit</span><span class="p">)</span>
+
+    <span class="c1"># Metrik</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">prec</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">rec</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;Model&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="n">acc</span><span class="p">,</span>
+        <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="n">prec</span><span class="p">,</span>
+        <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="n">rec</span><span class="p">,</span>
+        <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="n">f1</span>
+    <span class="p">})</span>
+
+    <span class="c1"># Simpan model terbaik (berdasarkan F1)</span>
+    <span class="k">if</span> <span class="n">f1</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="n">f1</span>
+        <span class="n">best_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># 4. RINGKASAN HASIL</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== RINGKASAN HASIL ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results_df</span><span class="p">)</span>
+
+<span class="c1"># Plot hasil perbandingan</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">results_df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;Metric&quot;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">),</span>
+            <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Metric&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbandingan Kinerja Model (Bank Marketing)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># 5. MODEL TERBAIK</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="n">best_name</span><span class="p">,</span> <span class="n">best_clf</span> <span class="o">=</span> <span class="n">best_model</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🏆 Model terbaik berdasarkan F1-Score: </span><span class="si">{</span><span class="n">best_name</span><span class="si">}</span><span class="s2"> (F1 = </span><span class="si">{</span><span class="n">best_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Confusion matrix untuk model terbaik</span>
+<span class="n">y_pred_best</span> <span class="o">=</span> <span class="n">best_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> <span class="k">if</span> <span class="n">best_name</span> <span class="o">==</span> <span class="s2">&quot;Naive Bayes&quot;</span> <span class="k">else</span> <span class="n">X_test</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_best</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span><span class="s2">&quot;Yes&quot;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span><span class="s2">&quot;Yes&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Actual&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Confusion Matrix - </span><span class="si">{</span><span class="n">best_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset shape: (45211, 17)
+
+===== Random Forest =====
+              precision    recall  f1-score   support
+
+           0       0.92      0.97      0.95      7985
+           1       0.65      0.39      0.49      1058
+
+    accuracy                           0.90      9043
+   macro avg       0.79      0.68      0.72      9043
+weighted avg       0.89      0.90      0.89      9043
+
+
+===== Naive Bayes =====
+              precision    recall  f1-score   support
+
+           0       0.93      0.90      0.92      7985
+           1       0.41      0.52      0.46      1058
+
+    accuracy                           0.85      9043
+   macro avg       0.67      0.71      0.69      9043
+weighted avg       0.87      0.85      0.86      9043
+
+
+===== KNN (k=5) =====
+              precision    recall  f1-score   support
+
+           0       0.92      0.97      0.94      7985
+           1       0.60      0.34      0.43      1058
+
+    accuracy                           0.90      9043
+   macro avg       0.76      0.65      0.69      9043
+weighted avg       0.88      0.90      0.88      9043
+
+
+=== RINGKASAN HASIL ===
+           Model  Accuracy  Precision    Recall  F1-Score
+0  Random Forest  0.904567   0.652582  0.394140  0.491456
+1    Naive Bayes  0.854805   0.405904  0.519849  0.455864
+2      KNN (k=5)  0.896273   0.600671  0.338374  0.432890
+</pre></div>
+</div>
+<img alt="_images/f88c0344dcbf2b27bf0c17c53cb62f6697e0f6ce918b5a3b0ffb7498c36ec724.png" src="_images/f88c0344dcbf2b27bf0c17c53cb62f6697e0f6ce918b5a3b0ffb7498c36ec724.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🏆 Model terbaik berdasarkan F1-Score: Random Forest (F1 = 0.4915)
+</pre></div>
+</div>
+<img alt="_images/b10a006e96d2c64c29e7d1d1f4d18fce5a5b92fa713fcbb7e076d7e9c493b3a6.png" src="_images/b10a006e96d2c64c29e7d1d1f4d18fce5a5b92fa713fcbb7e076d7e9c493b3a6.png" />
+</div>
+</div>
+<p><strong>Penjelasan:</strong></p>
+<ul class="simple">
+<li><p>Menyimpan hasil evaluasi semua model (Accuracy, Precision, Recall, F1).</p></li>
+<li><p>Menentukan model terbaik otomatis berdasarkan F1-Score (bisa ganti ke Accuracy kalau mau).</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Kelebihan</p></th>
+<th class="head"><p>Kekurangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Random Forest</strong></p></td>
+<td><p>Akurasi tinggi, tangguh terhadap data campuran</p></td>
+<td><p>Butuh waktu lebih lama &amp; interpretasi lebih sulit</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Naive Bayes</strong></p></td>
+<td><p>Cepat, cocok untuk data kategorikal</p></td>
+<td><p>Asumsi independensi fitur sering tidak realistis</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>KNN</strong></p></td>
+<td><p>Mudah dipahami, non-parametrik</p></td>
+<td><p>Lambat di dataset besar, sensitif terhadap skala data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Output yang Dihasilkan:</strong></p>
+<ul class="simple">
+<li><p>Classification report per model (precision, recall, f1-score per kelas)</p></li>
+<li><p>Tabel ringkasan hasil</p></li>
+<li><p>Barplot perbandingan performa antar model</p></li>
+<li><p>Confusion Matrix hanya untuk model terbaik.</p></li>
+</ul>
 </section>
 </section>
 
@@ -832,6 +1057,7 @@ weighted avg       0.89      0.90      0.89      9043
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-proyeksi"><strong>Reduksi Dimensi &amp; Proyeksi</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-random-forest-evaluasi"><strong>Klasifikasi (Random Forest + evaluasi)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bandingkan-dengan-random-forest-naive-bayes-dan-k-nearest-neighbors-knn-menggunakan-metrik-evaluasi-yang-sama"><strong>Bandingkan dengan Random Forest, Naive Bayes, dan K-Nearest Neighbors (KNN) menggunakan metrik evaluasi yang sama.</strong></a></li>
 </ul>
   </nav></div>
 
